@@ -156,3 +156,20 @@ body{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: none;
 }
+
+.filter{
+    margin: 1% 4%;
+}
+
+.filter-btn{
+    background-color: #48c479;
+    color: white;
+    padding: 0.8%;
+    border: white;
+    border-radius: 5px;
+}
+
+.filter-btn:hover{
+    cursor: pointer;
+    padding: 1%;
+}
