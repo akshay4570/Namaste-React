@@ -1,11 +1,26 @@
 import Restaurant from "./Restaurant";
-import resObj from "../utils/mockData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { SWIGGY_API } from "../utils/constant";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
-	const [restList, setRestList] = useState(resObj);
+	const [restList, setRestList] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
+	const [filteredRest, setFilteredRest] = useState([]);
+
+	useEffect(() => {
+		fetchData();
+	}, []);
+
+	const fetchData = async () => {
+		const data = await fetch(SWIGGY_API);
+
+		const json = await data.json();
+
+		setRestList(json?.data?.cards[2]?.data?.data?.cards);
+		setFilteredRest(json?.data?.cards[2]?.data?.data?.cards);
+	};
 
 	const handleSearch = (e) => {
 		const inputValue = e.target.value;
@@ -15,9 +30,12 @@ const Body = () => {
 			return res.data.name.toLowerCase().includes(searchTerm.toLowerCase());
 		});
 
-		setRestList(filteredList);
+		setFilteredRest(filteredList);
 	};
-	return (
+
+	return restList.length === 0 ? (
+		<Shimmer />
+	) : (
 		<div className="body">
 			<div className="functionalities">
 				<div className="filter">
@@ -27,7 +45,7 @@ const Body = () => {
 							const filteredList = restList.filter(
 								(res) => res.data.avgRating > 4
 							);
-							setRestList(filteredList);
+							setFilteredRest(filteredList);
 						}}
 					>
 						Top Rated+
@@ -47,7 +65,7 @@ const Body = () => {
 				</div>
 			</div>
 			<div className="res-container">
-				{restList.map((Element) => (
+				{filteredRest.map((Element) => (
 					<Restaurant key={Element.id} resData={Element} />
 				))}
 			</div>
