@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { SWIGGY_API } from "../utils/constant";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
 	const [restList, setRestList] = useState([]);
@@ -66,7 +67,13 @@ const Body = () => {
 			</div>
 			<div className="res-container">
 				{filteredRest.map((Element) => (
-					<Restaurant key={Element.id} resData={Element} />
+					<Link
+						to={"/restaurant/" + Element.data.id}
+						key={Element.data.id}
+						className="link-tags-res"
+					>
+						<Restaurant resData={Element} />
+					</Link>
 				))}
 			</div>
 		</div>
