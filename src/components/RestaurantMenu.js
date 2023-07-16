@@ -1,31 +1,19 @@
-import { useState, useEffect } from "react";
-import { MENU_API, CDN_URL } from "../utils/constant";
+import { useState } from "react";
+import { CDN_URL } from "../utils/constant";
 import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import { BiStar, BiSolidTime } from "react-icons/bi";
 import { HiCurrencyRupee } from "react-icons/hi";
 import ReactSwitch from "react-switch";
 import Menu from "./Menu";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
 	const { resId } = useParams();
-	const [restMenuDetails, setRestMenuDetails] = useState(null);
-	const [restMenuDiscount, setRestMenuDiscount] = useState(null);
-	const [menu, setMenu] = useState(null);
+
+	const { restMenuDetails, restMenuDiscount, menu } = useRestaurantMenu(resId);
+
 	const [checked, setChecked] = useState(false);
-	useEffect(() => {
-		fetchRestaurantMenu();
-	}, []);
-
-	const fetchRestaurantMenu = async () => {
-		const data = await fetch(MENU_API + resId);
-
-		const json = await data.json();
-
-		setRestMenuDetails(json?.data);
-		setRestMenuDiscount(json?.data);
-		setMenu(json?.data);
-	};
 
 	if (restMenuDetails === null || restMenuDiscount === null || menu === null)
 		return <Shimmer />;

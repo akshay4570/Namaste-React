@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { FaUserCircle } from "react-icons/fa";
 import { BiLogoAws } from "react-icons/bi";
@@ -10,6 +10,9 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
+import Shimmer from "./components/Shimmer";
+
+// import Grocery from "./components/Grocery";
 
 /*const Title = () => (
     <h1 className="head" tabIndex="5">
@@ -67,6 +70,7 @@ const HeadingComponent = () => (
 
 //Swiggy App
 
+const Grocery = lazy(() => import("./components/Grocery"));
 const AppLayout = () => {
 	return (
 		<div className="app">
@@ -96,6 +100,10 @@ const appRouter = createBrowserRouter([
 			{
 				path: "restaurant/:resId",
 				element: <RestaurantMenu />,
+			},
+			{
+				path: "/grocery",
+				element: <Suspense fallback={<Shimmer />}><Grocery /></Suspense>,
 			},
 		],
 		errorElement: <Error />,

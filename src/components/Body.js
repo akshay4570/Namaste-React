@@ -4,6 +4,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { SWIGGY_API } from "../utils/constant";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
 	const [restList, setRestList] = useState([]);
@@ -34,6 +35,15 @@ const Body = () => {
 		setFilteredRest(filteredList);
 	};
 
+	const onlineStatus = useOnlineStatus();
+
+	if (onlineStatus !== true) {
+		return (
+			<div>
+				Looks like your internet is not working!! Please check your connection
+			</div>
+		);
+	}
 	return restList.length === 0 ? (
 		<Shimmer />
 	) : (

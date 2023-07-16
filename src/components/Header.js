@@ -24,6 +24,11 @@ const Header = () => {
 							Contact Us
 						</Link>
 					</li>
+					<li>
+						<Link to="/grocery" className="link-tags">
+							Grocery
+						</Link>
+					</li>
 					<li>Cart</li>
 				</ul>
 			</div>
