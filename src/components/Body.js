@@ -1,4 +1,4 @@
-import Restaurant from "./Restaurant";
+import Restaurant, { withRestaurantPromoted } from "./Restaurant";
 import { useState, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { SWIGGY_API } from "../utils/constant";
@@ -44,6 +44,9 @@ const Body = () => {
 			</div>
 		);
 	}
+
+	const RestaurantPromoted = withRestaurantPromoted(Restaurant);
+
 	return restList.length === 0 ? (
 		<Shimmer />
 	) : (
@@ -82,7 +85,11 @@ const Body = () => {
 						key={Element.data.id}
 						className="link-tags-res"
 					>
-						<Restaurant resData={Element} />
+						{Element.data.promoted ? (
+							<RestaurantPromoted resData={Element} />
+						) : (
+							<Restaurant resData={Element} />
+						)}
 					</Link>
 				))}
 			</div>

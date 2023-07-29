@@ -1,4 +1,6 @@
 import { CDN_URL, VEG_URL, NON_VEG_URL, MENU_API } from "../utils/constant";
+import { useState } from "react";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 
 const MenuItemCard = ({ menuCard }) => {
 	const { id, name, category, description, imageId, isVeg, ratings, price } =
@@ -31,14 +33,29 @@ const MenuItem = ({ menuItem }) => {
 	const { title, itemCards } = menuItem?.card?.card;
 	console.log(itemCards);
 	console.log(menuItem?.card?.card.itemCards);
+
+	const [toggle, setToggle] = useState(false);
+	const [arrow, setArrow] = useState(<SlArrowUp />);
 	return (
 		<div className="menu-details-item">
-			<div className="menu-header">{title}</div>
+			<div
+				className="menu-header bg-slate-50 py-3 px-2 flex justify-between"
+				onClick={() => {
+					setToggle(!toggle);
+					toggle ? setArrow(<SlArrowUp />) : setArrow(<SlArrowDown />);
+				}}
+			>
+				{title}
+				{arrow}
+			</div>
 			<div className="menu-details-desc">
 				{itemCards !== undefined &&
-					itemCards.map((menuCard) => (
-						<MenuItemCard key={menuCard.card.info.id} menuCard={menuCard} />
-					))}
+					itemCards.map(
+						(menuCard) =>
+							toggle && (
+								<MenuItemCard key={menuCard.card.info.id} menuCard={menuCard} />
+							)
+					)}
 			</div>
 		</div>
 	);
