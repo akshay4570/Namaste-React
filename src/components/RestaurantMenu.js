@@ -32,9 +32,12 @@ const RestaurantMenu = () => {
 		restMenuDiscount?.cards[1]?.card?.card?.gridElements?.infoWithStyle;
 
 	console.log(menu);
-	const menuDetails = menu?.cards[3]?.groupedCard?.cardGroupMap?.REGULAR;
-	console.log(menu?.cards[3]?.groupedCard?.cardGroupMap?.REGULAR);
-	console.log(menuDetails);
+	const menuDetails =
+		menu?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR.cards.filter(
+			(menuItem) =>
+				menuItem?.card?.card?.["@type"] ===
+				"type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+		);
 	return (
 		<div className="res-menu">
 			<div className="res-menu-details">
@@ -101,7 +104,7 @@ const DiscountTab = (props) => {
 			<div className="discount-details">
 				<div className="coupon-image">
 					<img
-						src={CDN_URL + discount.info.logoBottom}
+						src={CDN_URL + discount.info.offerLogo}
 						className="coupon-image-detail"
 					/>
 				</div>

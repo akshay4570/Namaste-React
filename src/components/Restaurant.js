@@ -4,14 +4,8 @@ import { CDN_URL } from "../utils/constant";
 const Restaurant = (props) => {
 	const { resData } = props;
 
-	const {
-		cloudinaryImageId,
-		name,
-		avgRating,
-		cuisines,
-		costForTwo,
-		deliveryTime,
-	} = resData?.data || {};
+	const { cloudinaryImageId, name, avgRating, cuisines, costForTwo, sla } =
+		resData?.info || {};
 	return (
 		<div className="res-card">
 			<div className="res-img">
@@ -24,8 +18,8 @@ const Restaurant = (props) => {
 					<div className="res-rating">
 						<BiStar color="white" size={15} /> {avgRating}
 					</div>
-					<div className="res-wait-time">{deliveryTime} mins</div>
-					<div className="res-meal">₹{costForTwo / 100} FOR TWO</div>
+					<div className="res-wait-time">{sla?.deliveryTime} mins</div>
+					<div className="res-meal">{costForTwo}</div>
 				</div>
 			</div>
 			<div className="res-quick-view">

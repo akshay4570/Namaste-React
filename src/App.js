@@ -11,6 +11,9 @@ import Contact from "./components/Contact";
 import Error from "./components/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
 import Shimmer from "./components/Shimmer";
+import Cart from "./components/Cart";
+import { Provider } from "react-redux";
+import appStrore from "./utils/appStore";
 
 // import Grocery from "./components/Grocery";
 
@@ -73,10 +76,12 @@ const HeadingComponent = () => (
 const Grocery = lazy(() => import("./components/Grocery"));
 const AppLayout = () => {
 	return (
-		<div className="app">
-			<Header />
-			<Outlet />
-		</div>
+		<Provider store={appStrore}>
+			<div className="app">
+				<Header />
+				<Outlet />
+			</div>
+		</Provider>
 	);
 };
 
@@ -103,7 +108,15 @@ const appRouter = createBrowserRouter([
 			},
 			{
 				path: "/grocery",
-				element: <Suspense fallback={<Shimmer />}><Grocery /></Suspense>,
+				element: (
+					<Suspense fallback={<Shimmer />}>
+						<Grocery />
+					</Suspense>
+				),
+			},
+			{
+				path: "/cart",
+				element: <Cart />,
 			},
 		],
 		errorElement: <Error />,

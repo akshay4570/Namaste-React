@@ -11,6 +11,8 @@ const Body = () => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filteredRest, setFilteredRest] = useState([]);
 
+	const RestaurantPromoted = withRestaurantPromoted(Restaurant);
+
 	useEffect(() => {
 		fetchData();
 	}, []);
@@ -19,9 +21,14 @@ const Body = () => {
 		const data = await fetch(SWIGGY_API);
 
 		const json = await data.json();
-
-		setRestList(json?.data?.cards[2]?.data?.data?.cards);
-		setFilteredRest(json?.data?.cards[2]?.data?.data?.cards);
+		console.log(json);
+		setRestList(
+			json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+		);
+		console.log(restList);
+		setFilteredRest(
+			json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+		);
 	};
 
 	const handleSearch = (e) => {
@@ -45,11 +52,9 @@ const Body = () => {
 		);
 	}
 
-	const RestaurantPromoted = withRestaurantPromoted(Restaurant);
+	console.log(restList);
 
-	return restList.length === 0 ? (
-		<Shimmer />
-	) : (
+	return (
 		<div className="body">
 			<div className="functionalities">
 				<div className="filter">
@@ -79,19 +84,20 @@ const Body = () => {
 				</div>
 			</div>
 			<div className="res-container">
-				{filteredRest.map((Element) => (
-					<Link
-						to={"/restaurant/" + Element.data.id}
-						key={Element.data.id}
-						className="link-tags-res"
-					>
-						{Element.data.promoted ? (
-							<RestaurantPromoted resData={Element} />
-						) : (
-							<Restaurant resData={Element} />
-						)}
-					</Link>
-				))}
+				{filteredRest !== undefined &&
+					filteredRest.map((Element) => (
+						<Link
+							to={"/restaurant/" + Element.info.id}
+							key={Element.info.id}
+							className="link-tags-res"
+						>
+							{Element.info.promoted ? (
+								<RestaurantPromoted resData={Element} />
+							) : (
+								<Restaurant resData={Element} />
+							)}
+						</Link>
+					))}
 			</div>
 		</div>
 	);

@@ -1,10 +1,18 @@
 import { CDN_URL, VEG_URL, NON_VEG_URL, MENU_API } from "../utils/constant";
 import { useState } from "react";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 
-const MenuItemCard = ({ menuCard }) => {
+export const MenuItemCard = ({ menuCard, cart }) => {
+	console.log(menuCard);
 	const { id, name, category, description, imageId, isVeg, ratings, price } =
 		menuCard?.card?.info;
+	const dispatch = useDispatch();
+
+	const handleAddItem = (menuCard) => {
+		dispatch(addItem(menuCard));
+	};
 	return (
 		<>
 			<div className="menu-detail-item-content">
@@ -21,39 +29,49 @@ const MenuItemCard = ({ menuCard }) => {
 				</div>
 				<div className="menu-details-img">
 					<img src={CDN_URL + imageId} className="item-img" />
-					<button className="menu-details-btn">Add +</button>
+					{!cart && (
+						<button
+							className="menu-details-btn"
+							onClick={() => handleAddItem(menuCard)}
+						>
+							Add +
+						</button>
+					)}
 				</div>
 			</div>
 			<hr className="hr" />
 		</>
 	);
 };
-const MenuItem = ({ menuItem }) => {
+const MenuItem = ({ menuItem, showItems, setShowItems }) => {
 	console.log(menuItem);
 	const { title, itemCards } = menuItem?.card?.card;
 	console.log(itemCards);
 	console.log(menuItem?.card?.card.itemCards);
 
-	const [toggle, setToggle] = useState(false);
+	// const [showItems, setshowItems] = useState(false);
 	const [arrow, setArrow] = useState(<SlArrowUp />);
 	return (
 		<div className="menu-details-item">
 			<div
-				className="menu-header bg-slate-50 py-3 px-2 flex justify-between"
+				className="menu-header bg-gray-50 shadow-lg py-3 px-2 flex justify-between"
 				onClick={() => {
-					setToggle(!toggle);
-					toggle ? setArrow(<SlArrowUp />) : setArrow(<SlArrowDown />);
+					setShowItems();
+					showItems ? setArrow(<SlArrowUp />) : setArrow(<SlArrowDown />);
 				}}
 			>
-				{title}
-				{arrow}
+				{title} ({itemCards.length}){arrow}
 			</div>
 			<div className="menu-details-desc">
 				{itemCards !== undefined &&
 					itemCards.map(
 						(menuCard) =>
-							toggle && (
-								<MenuItemCard key={menuCard.card.info.id} menuCard={menuCard} />
+							showItems && (
+								<MenuItemCard
+									key={menuCard.card.info.id}
+									menuCard={menuCard}
+									cart={false}
+								/>
 							)
 					)}
 			</div>
@@ -62,12 +80,18 @@ const MenuItem = ({ menuItem }) => {
 };
 const Menu = (props) => {
 	const { menu } = props;
+	const [showItems, setShowItems] = useState(-1);
 	console.log(menu);
 	return (
 		<div className="menu-details">
-			{menu?.cards.map((menuElement, index) =>
-				index === 0 ? null : <MenuItem key={index} menuItem={menuElement} />
-			)}
+			{menu?.map((menuElement, index) => (
+				<MenuItem
+					key={index}
+					menuItem={menuElement}
+					showItems={index === showItems ? true : false}
+					setShowItems={() => setShowItems(index)}
+				/>
+			))}
 		</div>
 	);
 };
