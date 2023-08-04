@@ -36,7 +36,7 @@ const Body = () => {
 		setSearchTerm(inputValue);
 
 		const filteredList = restList.filter((res) => {
-			return res.data.name.toLowerCase().includes(searchTerm.toLowerCase());
+			return res.info.name.toLowerCase().includes(searchTerm.toLowerCase());
 		});
 
 		setFilteredRest(filteredList);
@@ -55,14 +55,14 @@ const Body = () => {
 	console.log(restList);
 
 	return (
-		<div className="body">
+		<div className="body my-10">
 			<div className="functionalities">
 				<div className="filter">
 					<button
 						className="filter-btn"
 						onClick={() => {
 							const filteredList = restList.filter(
-								(res) => res.data.avgRating > 4
+								(res) => res.info.avgRating > 4
 							);
 							setFilteredRest(filteredList);
 						}}

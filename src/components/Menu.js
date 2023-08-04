@@ -15,7 +15,7 @@ export const MenuItemCard = ({ menuCard, cart }) => {
 	};
 	return (
 		<>
-			<div className="menu-detail-item-content">
+			<div className="menu-detail-item-content" data-testid="menuCard">
 				<div className="menu-details-content">
 					{isVeg ? (
 						<img src={VEG_URL} className="symbol" />
