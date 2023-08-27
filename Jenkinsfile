@@ -5,7 +5,7 @@ pipeline{
         stage('Stage 1'){
             steps{
                 script{
-                    echo "Successfully Triggered on Jenkins PR"
+                    echo "Successfully Triggered on Jenkins"
                 }
             }
         }
